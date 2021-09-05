@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Deepor - Responsive Bootstrap 4 Admin Dashboard Template
+Author: Hencework
+
+License: You must have a valid license purchased only from templatemonster to legally use the template for your project.
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>房产信息可视化平台</title>
+    <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+	 {% load static %}
+	<link rel="stylesheet" href="{% static 'dist/css/layui.css' %}" >
+	  <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+	  <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <style type="text/css">
+	    .low_right
+	    {
+		  position: fixed;
+		  width: 100px;
+		  height: 100px;
+		  bottom: 100px;
+		  right: 100px;                        
+		  text-align: center;
+		  padding: 10px;
+		  margin: 10px;
+	    }
+    </style>
+	<style type="text/css">
+	    #panel {
+	        position: fixed;
+	        background-color: white;
+	        max-height: 90%;
+	        overflow-y: auto;
+	        top: 10px;
+	        right: 50px;
+	        width: 350px;
+	    }
+	    #panel .amap-call {
+	        background-color: #009cf9;
+	        border-top-left-radius: 4px;
+	        border-top-right-radius: 4px;
+	    }
+	    #panel .amap-lib-transfer {
+	        border-bottom-left-radius: 4px;
+	        border-bottom-right-radius: 4px;
+	        overflow: hidden;
+	    }
+		
+	</style>
+	
+  
+</head>
+
+<body>
+    
+    <div class="container-fluid mt-xl-50 mt-sm-30 mt-15">
+	      
+            <!-- Container -->
+            <div class="container">
+                <!-- Title -->
+                <div class="hk-pg-header">
+                	<h2 class="hk-pg-title">二手房信息管理</h2>
+                </div>
+                <!-- /Title -->
+
+                <!-- Row -->
+                <div class="row">
+               
+					<div class="col-xl-12">
+						<div class="hk-row">
+							<table class="layui-hide" lay-filter="test" id="test"></table>
+							<script  type="text/html" id="barDemo">
+								<button type="button" class="layui-btn layui-btn-sm" lay-event="edit">编辑</button>
+							   
+							   <button type="button" class="layui-btn layui-btn-warm layui-btn-sm " lay-event="led" >导航</button>
+								<button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del" >删除</button>
+							</script>
+						</div>
+						 
+					</div>
+					
+				</div>
+                <!-- /Row -->
+            </div>
+            <!-- /Container -->
+	</div>	
+	
+	
+	<!--编辑用户信息模块-->
+	<div class="modal fade" id="old-house-manage-modal" tabindex="-1" aria-labelledby="old-house-manage-modal"  >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 id="modal-title" ></h2>            
+					<h4 id="old-house-manage-id" class="hidden"></h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">						
+					<form id="old-house-manage-modal-form">
+						
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-default">标题</span>
+								</div>
+								<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="old-house-manage-title" id="old-house-manage-title">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-default">户型</span>
+								</div>
+								<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="old-house-manage-houseinfo" id="old-house-manage-houseinfo">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-default">地址</span>
+								</div>
+								<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="old-house-manage-adress" id="old-house-manage-adress">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-default">总价</span>
+								</div>
+								<input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="old-house-manage-totalPrice" id="old-house-manage-totalPrice">
+							</div>
+						</div>
+						
+					</form>
+				</div>
+				
+				<div class="modal-footer">																						
+					<button type="button" class="btn btn-primary" id="old-house-manage-modal-but">修改</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--编辑用户信息模块-->
+	
+	
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="lead-modal">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content" style="width:1100px;right: 25%;height: 700px;">
+				<div class="modal-header">
+					<h2 id="modal-title" ></h2>            
+					<h4 id="old-house-manage-id" class="hidden"></h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">						
+					<div id="container" style="height: 600px;"></div>
+					<div id="panel"></div>
+				</div>
+				
+				<div class="modal-footer">																						
+					<button type="button" class="layui-btn layui-btn-normal" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--编辑用户信息模块-->
+	
+	
+	<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+	<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=9d85e84c128115bb394d9b3f4164fa9a&plugin=AMap.ToolBar,AMap.Driving,AMap.Transfer"></script> 
+	
+	 <script>
+			
+	        layui.use(['table','form'], function(){
+	            var table = layui.table;
+	            var form = layui.form;
+	            var mainIndex;
+	            window.tableIns=table.render({
+	                elem: '#test'
+	                ,url:'/managesit/oldhousetabledata/'
+	                ,limit:10
+	                ,limits:[5,10,20]
+	                ,cols:[[
+	                    {type:'checkbox',fixed:'left'},
+	                    {field: 'id', title: 'ID', sort: true, fixed: 'left'},
+						{field: 'title', title: '标题'},
+	                    {field: 'houseinfo', title: '户型'},
+						 {field: 'adress', title: '地址'},
+	                    {field: 'totalPrice', title: '总价',sort: true},       					
+	                    {title:'操作',minWidth:'200',algin:'center',toolbar:'#barDemo'}
+	                ]]
+	                ,page:true
+	            });
+		
+	            //表格的事件监听
+	            table.on('tool(test)', function(obj){
+	                var data = obj.data;//取到触发事件这一行的数据	               
+	                if(obj.event === 'del'){						
+						if(confirm("是否删除该信息")!==true){
+							return false;
+						}else{
+							$.ajax({
+							    url: "/managesit/deleteoldhouseinfo/",
+							    type: "POST",
+							    data:{"id":data.id},
+							    dataType: "json",
+							    success: function(data){
+							        obj.del();
+							        layer.close(index);
+							        layer.msg("删除成功", {icon: 6});
+							        tableIns.reload();
+							    },
+							    error:function (data) {
+							        layer.msg("删除失败", {icon: 5});
+							    }
+							});
+						}												
+	                } else if(obj.event === 'edit'){
+	                    // openUserUpdate(data);
+						$("#old-house-manage-modal").modal('show');
+						$("#modal-title").html("二手房信息编辑");
+						$("#old-house-manage-modal-but").html("保存");
+												
+						$("#old-house-manage-title").val(data.title);											
+						$("#old-house-manage-houseinfo").val(data.houseinfo);						
+						$("#old-house-manage-adress").val(data.adress);
+						$("#old-house-manage-totalPrice").val(data.totalPrice);		
+						$("#old-house-manage-id").html(data.id);
+										
+	                }else if(obj.event === 'led'){
+						$("#lead-modal").modal('show');
+						$("#modal-title").html("导航");
+						
+						var map = new AMap.Map("container", {
+						    resizeEnable: true,
+						    center: [116.397428, 39.90923],
+						    zoom: 13 
+						});
+						var transOptions = {
+						    map: map,
+						    city: '武汉市',
+						    panel: 'panel',                           
+						    policy: AMap.TransferPolicy.LEAST_TIME //乘车策略
+						};
+						//构造公交换乘类
+						var transfer = new AMap.Transfer(transOptions);
+						//根据起、终点名称查询公交换乘路线
+						transfer.search([
+						    {keyword: '武汉理工余家头校区',city:'武汉'},
+						    //第一个元素city缺省时取transOptions的city属性
+						    {keyword: data.adress,city:'武汉'}
+						    //第二个元素city缺省时取transOptions的cityd属性
+						], function(status, result) {
+						    // result即是对应的公交路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_TransferResult
+						    if (status === 'complete') {
+						        log.success('绘制公交路线完成')
+						    } else {
+						        log.error('公交路线数据查询失败' + result)
+						    }
+						});
+					}
+	            });
+	            																						
+	        });
+																
+							
+			//添加新的求购信息					
+			$("#add-old-house-manage").click(function(){
+				$("#old-house-manage-modal").modal('show');
+				$("#modal-title").html("添加新二手房信息");
+				
+				$("#old-house-manage-modal-form")[0].reset();
+				$("#old-house-manage-modal-but").html("提交");
+			})						
+			
+			//更新或者保存一条求购信息			
+			$("#old-house-manage-modal-but").click(function(){
+				if($("#modal-title").html()==="二手房信息编辑"){
+					var data=getFormData("#old-house-manage-modal-form");
+					var id=$("#old-house-manage-id").html();
+					data["id"]=id
+					$.ajax({
+						url: "/managesit/updateoldhouseinfo/",
+						type: "POST",
+						data:data,
+						dataType: "json",
+						success: function(data){
+							if(data.code===1){
+								window.tableIns.reload();
+								$("#old-house-manage-modal").modal('hide');
+							}
+						   
+						},						
+					})
+					
+				}else{
+					var data=getFormData("#old-house-manage-modal-form");					
+					$.ajax({
+						url: "/managesit/addoldhouseinfo/",
+						type: "POST",
+						data:data,
+						dataType: "json",
+						success: function(data){
+							if(data.code===1){
+								window.tableIns.reload();
+								$("#old-house-manage-modal").modal('hide');
+							}
+						   
+						},						
+					})
+				}
+			})
+	    </script>
+   
+
+</body>	
+	<!-- /HK Wrapper -->
+	<div class="low_right" id="add-old-house-manage" >
+		<svg t="1628184816451" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6367" width="100" height="100"><path d="M512 0c282.752 0 512 229.248 512 512s-229.248 512-512 512S0 794.752 0 512 229.248 0 512 0z m0 213.333333a42.666667 42.666667 0 0 0-42.666667 42.666667v213.333333H256l-4.992 0.298667A42.666667 42.666667 0 0 0 256 554.666667h213.333333v213.333333l0.298667 4.992A42.666667 42.666667 0 0 0 554.666667 768v-213.333333h213.333333l4.992-0.298667A42.666667 42.666667 0 0 0 768 469.333333h-213.333333V256l-0.298667-4.992A42.666667 42.666667 0 0 0 512 213.333333z" fill="#008df0" p-id="6368"></path></svg>
+	</div>
+		
+
+</html>

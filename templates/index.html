@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   
+	<title>房产信息可视化平台</title>
+	
+    <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+	{% load static %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+	<!-- vector map CSS -->
+    <link href="{% static 'vendors/vectormap/jquery-jvectormap-2.0.3.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Toggles CSS -->
+    <link href="{% static 'vendors/jquery-toggles/css/toggles.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'vendors/jquery-toggles/css/themes/toggles-light.css' %}" rel="stylesheet" type="text/css">
+	
+	<!-- Toastr CSS -->
+    <link href="{% static 'vendors/jquery-toast-plugin/dist/jquery.toast.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/style.css' %}" rel="stylesheet" type="text/css">
+	<!-- <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+	<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/> -->
+
+</head>
+
+<body>
+	
+	<!-- HK Wrapper -->
+	<div class="hk-wrapper hk-vertical-nav">
+
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-xl navbar-light fixed-top hk-navbar">
+            <a id="navbar_toggle_btn" class="navbar-toggle-btn nav-link-hover" href="javascript:void(0);"><i class="ion ion-ios-menu"></i></a>
+            <a class="navbar-brand" >
+                <img class="brand-img d-inline-block mr-5" src="{% static 'dist/img/logo.png' %}"  />房产信息可视化平台
+            </a>
+            <ul class="navbar-nav hk-navbar-content">                   
+                <li class="nav-item dropdown dropdown-authentication">
+                    <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="media">
+                            <div class="media-img-wrap">
+                                <div class="avatar">
+                                    <img src="{% static 'dist/img/portrait.jpeg' %}" alt="user" class="avatar-img rounded-circle">
+                                </div>
+                                <span class="badge badge-success badge-indicator"></span>
+                            </div>
+                            <div class="media-body">
+                                <span  id="admin-name">{{request.session.username}}<i class="zmdi zmdi-chevron-down"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
+                        <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-account"></i><span>个人中心</span></a>
+                        <a class="dropdown-item" href="#" id="change-password"><i class="dropdown-icon zmdi zmdi-settings" ></i><span>修改密码</span></a>                     
+                        <a class="dropdown-item" href="#" id="lag-out"><i class="dropdown-icon zmdi zmdi-power"></i><span>退出</span></a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!-- /Top Navbar -->
+
+        <!-- Vertical Nav -->
+        <nav class="hk-nav hk-nav-light">
+            <a href="javascript:void(0);" id="hk_nav_close" class="hk-nav-close"><span class="feather-icon"><i data-feather="x"></i></span></a>
+            <div class="nicescroll-bar">
+                <div class="navbar-nav-wrap">
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"  data-target="#dash_drp">
+                                <i class="ion ion-ios-keypad"></i>
+                                <span class="nav-link-text" id="self-info">首页</span>
+                            </a>
+                            
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#app_drp">
+                                <i class="ion ion-ios-apps" ></i>
+                                <span class="nav-link-text">新楼盘信息</span>
+                                <!-- <span class="badge badge-warning badge-pill">4</span> -->
+                            </a>
+                            <ul id="app_drp" class="nav flex-column collapse collapse-level-1">
+                                <li class="nav-item">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#" id="new-house-data-chart">数据视图</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#" id='new-house-manage-html'>信息管理</a>
+                                        </li>
+               
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                      
+                        <li class="nav-item">
+							<a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#content_drp">
+								<i class="ion ion-ios-filing"></i>
+								<span class="nav-link-text">二手房信息</span>
+							</a>
+							<ul id="content_drp" class="nav flex-column collapse collapse-level-1">
+								<li class="nav-item">
+									<ul class="nav flex-column">
+										
+										<li class="nav-item">
+											<a class="nav-link" href="#" id="old-house-maptag-html">地图标定</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="#" id="old-house-manege">信息管理</a>
+										</li>
+										
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item">
+						    <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#pages_drp">
+						        <i class="glyphicon glyphicon-home"></i>
+								<span class="nav-link-text">出租房信息</span>
+						    </a>
+						    <ul id="pages_drp" class="nav flex-column collapse collapse-level-1">
+						        <li class="nav-item">
+						            <ul class="nav flex-column">
+						                <li class="nav-item">
+						                    <a class="nav-link" href="#" id="rent-maptag-html">地图标定</a>
+						                </li>
+						                <li class="nav-item">
+						                    <a class="nav-link" href="#" id="rent-manage-html">租房管理</a>
+						                </li>                          
+						            </ul>
+						        </li>
+						    </ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#utilities_drp">
+								<i class="ion ion-ios-construct"></i>
+								<span class="nav-link-text">求租求购信息</span>
+							</a>
+							<ul id="utilities_drp" class="nav flex-column collapse collapse-level-1">
+								<li class="nav-item">
+									<ul class="nav flex-column">										
+										<li class="nav-item">
+											<a class="nav-link" href="#" id="request-buy-html">求购信息</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="#" id="request-rent-html">求租信息</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+                    </ul>
+                                  
+                </div>
+            </div>
+        </nav>
+        <div id="hk_nav_backdrop" class="hk-nav-backdrop"></div>
+        <!-- /Vertical Nav -->
+
+       
+        <!-- Main Content -->
+        <div class="hk-pg-wrapper">
+			<!-- Container -->
+            <div class="container-fluid mt-xl-50 mt-sm-30 mt-15">
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hk-row">
+							<div class="col-lg-3 col-md-6">
+								<div class="card card-sm">
+									<div class="card-body">
+										<div class="d-flex justify-content-between mb-5">
+											<div>
+												<span class="d-block font-15 text-dark font-weight-500">在售楼盘</span>
+											</div>
+											<div>
+												<span class="text-success font-14 font-weight-500">个</span>
+											</div>
+										</div>
+										<div class="text-center">
+											<span class="d-block display-4 text-dark mb-5">{{ Building_num }}</span>
+											
+										</div>
+									</div>
+								</div>
+							
+							</div>
+							<div class="col-lg-3 col-md-6">
+								<div class="card card-sm">
+									<div class="card-body">
+										<div class="d-flex justify-content-between mb-5">
+											<div>
+												<span class="d-block font-15 text-dark font-weight-500">在售二手房</span>
+											</div>
+											<div>
+												<span class="text-success font-14 font-weight-500">个</span>
+											</div>
+										</div>
+										<div class="text-center">
+											<span class="d-block display-4 text-dark mb-5"><span class="counter-anim">{{ secondHouse_num }}</span></span>
+							
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6">
+								<div class="card card-sm">
+									<div class="card-body">
+										<div class="d-flex justify-content-between mb-5">
+											<div>
+												<span class="d-block font-15 text-dark font-weight-500">求租数</span>
+											</div>
+											<div>
+												<span class="text-warning font-14 font-weight-500">条</span>
+											</div>
+										</div>
+										<div class="text-center">
+											<span class="d-block display-4 text-dark mb-5">{{ renting_num }}</span>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-lg-3 col-md-6">
+								<div class="card card-sm">
+									<div class="card-body">
+										<div class="d-flex justify-content-between mb-5">
+											<div>
+												<span class="d-block font-15 text-dark font-weight-500">租赁数</span>
+											</div>
+											<div>
+												<span class="text-danger font-14 font-weight-500">条</span>
+											</div>
+										</div>
+										<div class="text-center">
+											<span class="d-block display-4 text-dark mb-5">{{ renting_num }}</span>
+											
+										</div>
+									</div>
+								</div>
+							</div>							
+						</div>
+						<div class="hk-row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-header card-header-action">
+										<h6>武汉各区房数<small class="text-muted pl-10"></small></h6>
+										<div class="d-flex align-items-center card-action-wrap">
+											<a href="#" class="inline-block refresh mr-15">
+												<i class="ion ion-md-arrow-down"></i>
+											</a>
+											<a href="#" class="inline-block full-screen">
+												<i class="ion ion-md-expand"></i>
+											</a>
+										</div>
+									</div>
+									<div class="card-body pa-0">
+										<div class="pa-0">
+											<div id="map" style="height: 600px"></div>
+																																					
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							
+						</div>
+						
+						
+						
+						<div class="hk-row">
+							<div class="col-lg-7">
+								<div class="card card-refresh">
+									<div class="refresh-container">
+										<div class="loader-pendulums"></div>
+									</div>
+									<div class="card-header card-header-action">
+										<div>
+											<h6 class="mb-10">求租求购信息变化</h6>											
+										</div>			
+									</div>
+									<div class="card-body">
+										<section class="hk-sec-wrapper">										
+										    <div class="row">
+										        <div class="col-sm">
+										            <div id="m_chart_4" class="" style="height:400px;"></div>
+										        </div>
+										    </div>
+										</section>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-lg-5">							
+								<div class="card"  >
+									<div class="card-header card-header-action" >
+										<h6>今日求租/求购</h6>
+									</div>
+									<div class="card-body" >
+										<div class="user-activity user-activity-sm"  >
+											
+											{% for info in today_list %}
+											<div class="media">
+												<div class="media-img-wrap">
+													<div class="avatar avatar-xs">
+														<img src="{% static 'dist/img/avatar2.jpg' %}" alt="user" class="avatar-img rounded-circle">
+													</div>
+												</div>
+												<div class="media-body">
+													<div>
+														<span class="d-block mb-5"><span class="font-weight-500 text-dark text-capitalize">{{info.name}}</span>
+														<span class="pl-5">求租--整租;地址:{{info.adress}};要求:{{info.requirement}}</span></span>				
+													</div>
+												</div>
+											</div>
+											{% endfor %}
+											
+											
+										</div>
+									</div>
+								</div>
+							
+							</div>																				
+						</div>
+																			
+						
+					</div>
+                </div>
+                <!-- /Row -->
+            </div>
+            <!-- /Container -->
+			
+            
+            <!-- /Footer -->
+        </div>
+        <!-- /Main Content -->
+
+
+    </div>
+    <!-- /HK Wrapper -->
+
+
+
+	
+		<div class="modal fade" id="build-info-modal" tabindex="-1" aria-labelledby="build-info-modal"  >
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+						<h2 id="modal-title" ></h2>            
+		                <h4 id="stuid" class="hidden"></h4>
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                    <span aria-hidden="true">&times;</span>
+		                </button>
+		            </div>
+		            <div class="modal-body">						
+		                <form class="form-horizontal">
+								<div class="form-group">
+								    <label for="build-id" class="col-xs-4 control-label">编号</label>
+									<div class="col-xs-12">
+										<input class="form-control " id="build-id" type="text"     disabled not-allowed>
+									</div>
+								</div>
+							<fieldset disabled id="fieldset-disabled">
+								 <div class="form-group">
+								   <label for="build-name" class="col-xs-4 control-label">名称</label>
+								   <div class="col-xs-12">
+									 <input type="text" class="form-control" id="build-name" >
+								   </div>
+								 </div>
+								 
+								 <div class="form-group">
+								   <label for="build-adress" class="col-xs-4 control-label">地址</label>
+								   <div class="col-xs-6">
+								   		<select class="form-control" id="build-area">
+											<option value="江岸" >江岸区</option>
+											<option value="江汉" >江汉区</option>
+											<option value="硚口" >硚口区</option>
+											<option value="汉阳" >汉阳区</option>
+											<option value="武昌" >武昌区</option>
+											<option value="青山" >青山区</option>
+											<option value="洪山" >洪山区</option>
+											<option value="蔡甸" >蔡甸区</option>
+											<option value="江夏" >江夏区</option>
+											<option value="黄陂" >黄陂区</option>
+											<option value="新洲" >新洲区</option>
+											<option value="东西湖" >东西湖区</option>
+											<option value="汉南" >汉南区</option>
+								   		</select>
+										<input type="text" class="form-control" id="build-adress" >
+								   </div>
+								   								   									   									 												  								   
+								 </div>
+								 
+								 <div class="form-group">
+								   <label for="build-acreage" class="col-xs-4 control-label">面积</label>
+								   <div class="col-xs-12">
+									 <input type="text" class="form-control" id="build-acreage" >
+								   </div>
+								 </div>
+								 
+								 <div class="form-group">
+								   <label for="build-housetype" class="col-xs-4 control-label">房屋类型</label>
+								   <div class="col-xs-12">
+									 <input type="text" class="form-control" id="build-housetype" >
+								   </div>
+								 </div>
+								 
+								 <div class="form-group">
+								   <label for="build-average-price" class="col-xs-4 control-label">均价</label>
+								   <div class="col-xs-12">
+									 <input type="number" class="form-control" id="build-average-price" >
+								   </div>
+								 </div>
+								 
+								 <div class="form-group">
+								   <label for="build-total-price" class="col-xs-4 control-label">总价</label>
+								   <div class="col-xs-12">
+									 <input type="text" class="form-control" id="build-total-price" >
+								   </div>
+								 </div>
+								 
+								 <div class="form-group">
+								   <label for="build-advantage" class="col-xs-4 control-label">优点</label>
+								   <div class="col-xs-12">
+									 <input type="text" class="form-control" id="build-advantage" >
+								   </div>
+								 </div>
+						 	</fieldset>					 		                 		              		                 
+		               </form> 
+		            </div>
+					
+		            <div class="modal-footer">																						
+		                <button type="button" class="btn btn-primary" id="change-build-info">修改</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	
+			
+
+		<div class="modal fade" id="change-password-modal" tabindex="-1" aria-labelledby="change-password-modal"  >
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+						<h2 id="modal-title" >修改密码</h2>            
+		                <h4 id="stuid" class="hidden"></h4>
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                    <span aria-hidden="true">&times;</span>
+		                </button>
+		            </div>
+		            <div class="modal-body">						
+		                <form class="form-horizontal">
+							
+							<div class="form-group">
+								<label for="old-passwod" class="col-xs-4 control-label">旧密码</label>
+								<div class="col-xs-12">
+									<input class="form-control " id="old-passwod" type="text"  name="old-passwod"  >
+								</div>
+							</div>	
+							
+							
+						    <div class="form-group">
+								<label for="new-password" class="col-xs-4 control-label">新密码</label>
+								<div class="col-xs-12">
+									<input class="form-control " id="new-password" type="text"  name="new-password"   >
+								</div>
+							</div>
+							
+							
+							<div class="form-group">
+								<label for="again-newpassword" class="col-xs-4 control-label">再次输入新密码</label>
+								<div class="col-xs-12">
+									<input class="form-control " id="again-newpassword" type="text"     >
+								</div>
+							</div>
+							
+							
+		               </form> 
+		            </div>
+					
+		            <div class="modal-footer">																						
+		                <button type="button" class="btn btn-primary" id="change-passwodr-sub">提交</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+			
+			
+			
+	
+	  <!-- jQuery -->
+
+    <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'vendors/popper.js/dist/umd/popper.min.js' %}"></script>
+    <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Slimscroll JavaScript -->
+    <script src="{% static 'dist/js/jquery.slimscroll.js' %}"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="{% static 'dist/js/dropdown-bootstrap-extended.js' %}"></script>
+
+    <!-- FeatherIcons JavaScript -->
+    <script src="{% static 'dist/js/feather.min.js' %}"></script>
+
+    <!-- Toggles JavaScript -->
+    <script src="{% static 'vendors/jquery-toggles/toggles.min.js' %}"></script>
+    <script src="{% static 'dist/js/toggle-data.js' %}"></script>
+
+	<!-- Counter Animation JavaScript -->
+	<script src="{% static 'vendors/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+	<script src="{% static 'vendors/jquery.counterup/jquery.counterup.min.js' %}"></script>
+
+	<!-- Sparkline JavaScript -->
+    <script src="{% static 'vendors/jquery.sparkline/dist/jquery.sparkline.min.js' %}"></script>
+
+	<!-- Vector Maps JavaScript -->
+    <script src="{% static 'vendors/vectormap/jquery-jvectormap-2.0.3.min.js' %}"></script>
+    <script src="{% static 'vendors/vectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+	<script src="{% static 'dist/js/vectormap-data.js' %}"></script>
+
+	<!-- Owl JavaScript -->
+    <script src="{% static 'vendors/owl.carousel/dist/owl.carousel.min.js' %}"></script>
+
+	<!-- Toastr JS -->
+    <script src="{% static 'vendors/jquery-toast-plugin/dist/jquery.toast.min.js' %}"></script>
+
+	<!-- Apex JavaScript -->
+    <!-- <script src="{% static 'vendors/apexcharts/dist/apexcharts.min.js' %}"></script> -->
+	<script src="{% static 'dist/js/irregular-data-series.js' %}"></script>
+
+	<script src="{% static 'vendors/raphael/raphael.min.js' %}"></script>
+	<script src="{% static 'vendors/morris.js/morris.min.js' %}"></script>
+
+    <!-- Init JavaScript -->
+    <script src="{% static 'dist/js/init.js' %}"></script>
+	<script src="{% static 'dist/js/dashboard-data.js' %}"></script>
+	<script src="{% static 'dist/js/echarts.min.js' %}"></script>
+	
+	<script src="{% static 'dist/js/wuhan.js' %}"></script>
+	<script src="{% static 'dist/js/index.js' %}"></script>
+	
+	<!-- <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=BYI29HOR1PNj9oDSo07wG0qb7ODHMlA2&s=1"></script>
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&type=webgl&ak=BYI29HOR1PNj9oDSo07wG0qb7ODHMlA2"></script>
+ -->
+	<script src="{% static 'dist/js/layui.js' %}"></script>
+ 
+	
+	<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+
+	
+	
+    <script src="https://webapi.amap.com/js/marker.js"></script>
+    <!-- <script src="https://webapi.amap.com/maps?v=1.4.2&key=9d85e84c128115bb394d9b3f4164fa9a"></script> -->
+	<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=9d85e84c128115bb394d9b3f4164fa9a&plugin=AMap.ToolBar,AMap.Driving,AMap.Transfer"></script>
+	
+	<script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
+    <!-- <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script> -->
+ 
+</body>
+
+</html>

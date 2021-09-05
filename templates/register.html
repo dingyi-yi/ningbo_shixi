@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>用户注册</title>
+	 {% load static %}
+	<link href="{% static 'css/register.css' %}" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+</head>
+<body>
+
+<div class="register">
+	
+		<div class="boxHead">
+			<h1>注册账户</h1>
+		</div>
+		
+		<div class="boxBody">
+			
+			<form method="POST" action="/managesit/checkregister/" method="post"  id="form">
+				{% csrf_token %}
+				<div class="clear"></div>
+					<span>姓名</span>
+					<li>
+						<input type="text" class="text" value="Username" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}">
+					</li>
+
+
+				<div class="clear"></div>
+					<span>密码</span>
+					<li>
+						<input type="password" value="password" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+					</li>
+
+
+				<div class="clear"> </div>
+					<span>确定密码</span>
+					<li>
+							<input type="password" value="Password" name="rpassword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">	
+					</li>
+				
+				
+				<div class="submit">
+					<input type="submit" onclick="myFunction()" value="注册" >
+					<h4><a href="/managesit/login">返回登录</a></h4>
+				</div>
+			</form>
+		</div>
+</div>
+</div>
+
+</body>
+</html>

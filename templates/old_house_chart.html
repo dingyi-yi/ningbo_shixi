@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>房产信息可视化平台</title>
+    <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+    {% load static %}
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static '' %}favicon.ico">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+    <!-- Toggles CSS -->
+    <link href="{% static 'vendors/jquery-toggles/css/toggles.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'vendors/jquery-toggles/css/themes/toggles-light.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/style.css' %}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+   
+  
+	<div class="container-fluid mt-xl-50 mt-sm-30 mt-15">
+		<!-- Container -->
+		<div class="container">
+			<!-- Title -->
+			<div class="hk-pg-header">
+				<h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="bar-chart"></i></span></span>Bar Chart</h4>
+			</div>
+			<!-- /Title -->
+
+			<!-- Row -->
+			<div class="hk-row">
+				<div class="col-md-6">
+					
+					<section class="hk-sec-wrapper">
+					    <h6 class="hk-sec-title">Multiple Line Chart</h6>
+					    <div class="row">
+					        <div class="col-sm">
+					            <div id="m_chart_4" class="" style="height:400px;"></div>
+					        </div>
+					    </div>
+					</section>
+					
+					
+					
+					
+					<section class="hk-sec-wrapper">
+						<h6 class="hk-sec-title">Column Bar chart</h6>
+						<div class="row">
+							<div class="col-sm">
+								<div id="e_chart_5" class="echart" style="height:400px;"></div>
+							</div>
+						</div>
+					</section>
+				</div>		
+				
+	
+				<div class="col-md-6">
+					
+					
+					
+					<section class="hk-sec-wrapper">
+						<h6 class="hk-sec-title">Inverted Axes</h6>
+						<div class="row">
+							<div class="col-sm">
+								<div id="e_chart_9" class="echart" style="height:400px;"></div>
+							</div>
+						</div>
+					</section>
+					
+					<section class="hk-sec-wrapper">
+						<h6 class="hk-sec-title">Horizontal Stacked Bar Chart</h6>
+						<div class="row">
+							<div class="col-sm">
+								<div id="e_chart_4" class="echart" style="height:400px;"></div>
+							</div>
+						</div>
+					</section>
+				</div>	
+				
+				
+				<div class="col-md-6">
+					<section class="hk-sec-wrapper">
+						<h6 class="hk-sec-title">Custom Pie Chart with Labels</h6>
+						<div class="row">
+							<div class="col-sm">
+								<div id="peie_chart_10" class="echart" style="height:400px;"></div>
+							</div>
+						</div>
+					</section>
+				</div>	
+				<div class="col-md-6">
+					<section class="hk-sec-wrapper">
+						<h6 class="hk-sec-title">Pie Chart with Labels</h6>
+						<div class="row">
+							<div class="col-sm">
+								<div id="peie_chart_2" class="echart" style="height:400px;"></div>
+							</div>
+						</div>
+					</section>
+				</div>					
+							
+			</div>
+		</div>
+			<!-- /Row -->
+	</div>
+		<!-- /Container -->
+
+    <!-- jQuery -->
+    <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'vendors/popper.js/dist/umd/popper.min.js' %}"></script>
+    <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Slimscroll JavaScript -->
+    <script src="{% static 'dist/js/jquery.slimscroll.js' %}"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="{% static 'dist/js/dropdown-bootstrap-extended.js' %}"></script>
+
+    <!-- EChartJS JavaScript -->
+    <script src="{% static 'vendors/echarts/dist/echarts-en.min.js' %}"></script>
+    <script src="{% static 'dist/js/barcharts-data.js' %}"></script>
+	<script src="{% static 'dist/js/piecharts-data.js' %}"></script>
+	<script src="{% static 'dist/js/linecharts-data.js' %}"></script>
+	<script src="{% static 'vendors/raphael/raphael.min.js' %}"></script>
+	<script src="{% static 'vendors/morris.js/morris.min.js' %}"></script>
+    <!-- FeatherIcons JavaScript -->
+    <script src="{% static 'dist/js/feather.min.js' %}"></script>
+
+    <!-- Toggles JavaScript -->
+    <script src="{% static 'vendors/jquery-toggles/toggles.min.js' %}"></script>
+    <script src="{% static 'dist/js/toggle-data.js' %}"></script>
+
+    <!-- Init JavaScript -->
+    <script src="{% static 'dist/js/init.js' %}"></script>
+
+</body>
+
+</html>

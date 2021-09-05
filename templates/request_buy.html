@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Deepor - Responsive Bootstrap 4 Admin Dashboard Template
+Author: Hencework
+
+License: You must have a valid license purchased only from templatemonster to legally use the template for your project.
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Deepor I Media Object</title>
+    <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+	 {% load static %}
+	<link rel="stylesheet" href="{% static 'dist/css/layui.css' %}" >
+  
+    <style type="text/css">
+	    .low_right
+	    {
+		  position: fixed;
+		  width: 100px;
+		  height: 100px;
+		  bottom: 100px;
+		  right: 100px;                        
+		  text-align: center;
+		  padding: 10px;
+		  margin: 10px;
+	    }
+    </style>
+  
+</head>
+
+<body>
+    
+    <div class="container-fluid mt-xl-50 mt-sm-30 mt-15">
+	      
+            <!-- Container -->
+            <div class="container">
+                <!-- Title -->
+                <div class="hk-pg-header">
+                	<h2 class="hk-pg-title">求购信息表</h2>
+                </div>
+                <!-- /Title -->
+
+                <!-- Row -->
+                <div class="row">
+                    <!-- <div class="col-xl-5">
+                       <div class="hk-row">                       
+							<section class="hk-sec-wrapper">
+                            <h5 class="hk-sec-title">最新求购信息</h5>
+                            <p class="mb-25">以下展示最新的三条求租信息</p>
+                            <div class="row">
+                                <div class="col-sm">
+									{% for request_buy in last_request_buy  %}
+                                    <div class="media pa-20 border border-2 border-light rounded mb-20">
+                                        <img class="align-self-start mr-15 circle d-66" src="{% static 'dist/img/avatar9.jpg' %}" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <h6 class="mb-5">{{request_buy.id}}:{{request_buy.name}}</h6>
+                                            <p class="">
+												{{request_buy.house_type}}<br>
+												{{request_buy.expected_price}}<br>
+												{{request_buy.adress}}<br>
+												{{request_buy.requirement}}<br>
+											</p>
+                                        </div>
+                                    </div>
+									{% endfor %}
+                                                                       
+                                </div>
+                            </div>
+                        </section>                      
+						</div>
+										               
+					</div>
+					 -->
+					<div class="col-xl-12">
+						<div class="hk-row">
+							<table class="layui-hide" lay-filter="test" id="test"></table>
+							<script  type="text/html" id="barDemo">
+								<button type="button" class="layui-btn layui-btn-sm" lay-event="edit">编辑</button>
+							   <button type="button" class="layui-btn layui-btn-sm" lay-event="del" >删除</button>
+							</script>
+						</div>
+						 
+					</div>
+					
+				</div>
+                <!-- /Row -->
+            </div>
+            <!-- /Container -->
+	</div>	
+		<!--编辑用户信息模块-->
+			<div class="modal fade" id="request-buy-modal" tabindex="-1" aria-labelledby="request-buy-modal"  >
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+							<h2 id="modal-title" ></h2>            
+			                <h4 id="request-buy-id" class="hidden"></h4>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                    <span aria-hidden="true">&times;</span>
+			                </button>
+			            </div>
+			            <div class="modal-body">						
+							<form id="request-buy-modal-form">
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-default">姓名</span>
+										</div>
+										<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="request-buy-name" id="request-buy-name">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<label class="input-group-text" for="request-buy-house-type">房屋类型</label>
+										</div>
+										<select class="form-control custom-select" id="request-buy-house-type" name="request-buy-house-type">										
+											<option value="1">新房</option>
+											<option value="0">二手房</option>
+										</select>
+									</div>
+								</div>
+								
+								
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">期望价格</span>
+									</div>
+									<input type="number" class="form-control" name="request-buy-expected-price-min" id="request-buy-expected-price-min" placeholder="min"> 
+									<input type="number" class="form-control" name="request-buy-expected-price-max" id="request-buy-expected-price-max" placeholder="max">
+								</div>
+								<br>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">地址</span>
+									</div>
+									<select class="form-control custom-select" id="request-buy-adress1" name="request-buy-adress1">		
+										<option value="江岸" >江岸区</option>
+										<option value="江汉" >江汉区</option>
+										<option value="硚口" >硚口区</option>
+										<option value="汉阳" >汉阳区</option>
+										<option value="武昌" >武昌区</option>
+										<option value="青山" >青山区</option>
+										<option value="洪山" >洪山区</option>
+										<option value="蔡甸" >蔡甸区</option>
+										<option value="江夏" >江夏区</option>
+										<option value="黄陂" >黄陂区</option>
+										<option value="新洲" >新洲区</option>
+										<option value="东西湖" >东西湖区</option>
+										<option value="汉南" >汉南区</option>
+									</select>
+									<input type="text" class="form-control" id="request-buy-adress2" name="request-buy-adress2">
+								</div>
+								<br>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">要求</span>
+									</div>
+									<textarea class="form-control" aria-label="With textarea" id="request-buy-requirement" name="request-buy-requirement"></textarea>
+								</div>
+								
+								
+							</form>
+						</div>
+						
+			            <div class="modal-footer">																						
+			                <button type="button" class="btn btn-primary" id="request-buy-modal-but">修改</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			<!--编辑用户信息模块-->
+	
+	 <script>
+			
+	        layui.use(['table','form'], function(){
+	            var table = layui.table;
+	            var form = layui.form;
+	            var mainIndex;
+	            window.tableIns=table.render({
+	                elem: '#test'
+	                ,url:'/managesit/requestbuytabledata/'
+	                ,limit:5
+	                ,limits:[5,10,20]
+	                ,cols:[[
+	                    {type:'checkbox',fixed:'left'},
+	                    {field: 'id', title: 'ID', sort: true, fixed: 'left'},
+	                    {field: 'name', title: '姓名'},
+	                    {field: 'house_type', title: '房屋类型'},
+	                    {field: 'expected_price', title: '预期价格', sort: true,},
+	                    {field: 'adress', title: '地址'},
+						{field: 'requirement', title: '要求'},
+	                    {title:'操作',minWidth:'140',algin:'center',toolbar:'#barDemo'}
+	                ]]
+	                ,page:true
+	            });
+		
+	            //表格的事件监听
+	            table.on('tool(test)', function(obj){
+	                var data = obj.data;//取到触发事件这一行的数据	               
+	                if(obj.event === 'del'){						
+						if(confirm("是否删除该信息")!==true){
+							return false;
+						}else{
+							$.ajax({
+							    url: "/managesit/deleterequestbuy/",
+							    type: "POST",
+							    data:{"id":data.id},
+							    dataType: "json",
+							    success: function(data){
+							        obj.del();
+							        layer.close(index);
+							        layer.msg("删除成功", {icon: 6});
+							        tableIns.reload();
+							    },
+							    error:function (data) {
+							        layer.msg("删除失败", {icon: 5});
+							    }
+							});
+						}												
+	                } else if(obj.event === 'edit'){
+	                    // openUserUpdate(data);
+						$("#request-buy-modal").modal('show');
+						$("#modal-title").html("求购信息编辑");
+						$("#request-buy-modal-but").html("保存");
+							
+						$("#request-buy-name").val(data.name);
+						if(data.house_type==="新房"){$("#request-buy-house-type").val(1);}
+						else{$("#request-buy-house-type").val(0);}
+							
+						$("#request-buy-expected-price-min").val(data.expected_price.split("-")[0]);
+						$("#request-buy-expected-price-max").val(data.expected_price.split("-")[1]);
+						$("#request-buy-adress1").val(data.adress.split("/")[0]);
+						$("#request-buy-adress2").val(data.adress.split("/")[1]);
+						$("#request-buy-requirement").val(data.requirement);	
+						$("#request-buy-id").html(data.id);
+										
+	                }
+	            });
+	            																						
+	        });
+																
+							
+			//添加新的求购信息					
+			$("#add-request-buy").click(function(){
+				$("#request-buy-modal").modal('show');
+				$("#modal-title").html("添加新求购信息");
+				
+				$("#request-buy-modal-form")[0].reset();
+				$("#request-buy-modal-but").html("提交");
+			})						
+			
+			//更新或者保存一条求购信息			
+			$("#request-buy-modal-but").click(function(){
+				if($("#modal-title").html()==="求购信息编辑"){
+					var data=getFormData("#request-buy-modal-form");
+					var id=$("#request-buy-id").html();
+					data["id"]=id
+					$.ajax({
+						url: "/managesit/updaterequestbuy/",
+						type: "POST",
+						data:data,
+						dataType: "json",
+						success: function(data){
+							if(data.code===1){
+								window.tableIns.reload();
+								$("#request-buy-modal").modal('hide');
+							}
+						   
+						},						
+					})
+					
+				}else{
+					var data=getFormData("#request-buy-modal-form");					
+					$.ajax({
+						url: "/managesit/addrequestbuy/",
+						type: "POST",
+						data:data,
+						dataType: "json",
+						success: function(data){
+							if(data.code===1){
+								window.tableIns.reload();
+								$("#request-buy-modal").modal('hide');
+							}
+						   
+						},						
+					})
+				}
+			})
+	    </script>
+   
+
+</body>	
+	<!-- /HK Wrapper -->
+	<div class="low_right" id="add-request-buy" >
+		<svg t="1628184816451" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6367" width="100" height="100"><path d="M512 0c282.752 0 512 229.248 512 512s-229.248 512-512 512S0 794.752 0 512 229.248 0 512 0z m0 213.333333a42.666667 42.666667 0 0 0-42.666667 42.666667v213.333333H256l-4.992 0.298667A42.666667 42.666667 0 0 0 256 554.666667h213.333333v213.333333l0.298667 4.992A42.666667 42.666667 0 0 0 554.666667 768v-213.333333h213.333333l4.992-0.298667A42.666667 42.666667 0 0 0 768 469.333333h-213.333333V256l-0.298667-4.992A42.666667 42.666667 0 0 0 512 213.333333z" fill="#008df0" p-id="6368"></path></svg>
+	</div>
+	
+	
+
+</html>

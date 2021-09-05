@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>用户登录</title>
+     {% load static %}
+	<link href="{% static 'css/login.css' %}" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div class="login">
+		<div class="boxHead">
+			<h1>用户登录</h1>
+			<div class="alert-close"> </div>
+		</div>
+		
+		<div class="boxBody">
+
+			<form method="POST" action="/managesit/checkLogin/" id="form">
+				 {% csrf_token %}
+				<li>
+					<input type="text" class="text" value="Username" name="username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}"><a href="#" class=" icon user"></a>
+				</li>
+				<div class="clear"> </div>
+				<li>
+					<input type="password" value="Password" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}"> <a href="#" class="icon lock"></a>
+				</li>
+				<div class="clear"> </div>
+				<div class="submit">
+					<input type="submit"  value="登录" >
+					<h4><a href="/managesit/register">注册账户</a></h4>
+					<div class="clear"> </div>
+				</div>
+			</form>
+		</div>
+</div>
+
+</body>
+
+</html>

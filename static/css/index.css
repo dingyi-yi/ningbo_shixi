@@ -1,0 +1,31 @@
+*{
+	margin:0;
+	padding:0;
+}
+body{
+	font-size:16px;
+	color:#673929;
+}
+span{
+	line-height: auto;
+	height: auto;
+	font-size: 20px;
+	
+}
+
+button{
+	box-shadow: #222222;
+}
+
+
+#container{
+	width:80%;
+	margin:0 auto;
+}
+
+
+#main{
+	width:100%;
+	background-color:#f5f5dc;
+}
+
